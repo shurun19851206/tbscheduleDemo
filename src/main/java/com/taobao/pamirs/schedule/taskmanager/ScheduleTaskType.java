@@ -6,163 +6,167 @@ import java.util.List;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 /**
- * µ÷¶ÈÈÎÎñÀàĞÍ
+ * è°ƒåº¦ä»»åŠ¡ç±»å‹
+ * 
  * @author xuannan
  *
  */
 public class ScheduleTaskType implements java.io.Serializable {
-	
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	/**
-	 * ÈÎÎñÀàĞÍ
+	 * ä»»åŠ¡ç±»å‹
 	 */
 	private String baseTaskType;
-    /**
-     * ÏòÅäÖÃÖĞĞÄ¸üĞÂĞÄÌøĞÅÏ¢µÄÆµÂÊ
-     */
-    private long heartBeatRate = 5*1000;//1·ÖÖÓ
-    
-    /**
-     * ÅĞ¶ÏÒ»¸ö·şÎñÆ÷ËÀÍöµÄÖÜÆÚ¡£ÎªÁË°²È«£¬ÖÁÉÙÊÇĞÄÌøÖÜÆÚµÄÁ½±¶ÒÔÉÏ
-     */
-    private long judgeDeadInterval = 1*60*1000;//2·ÖÖÓ
-    
-    /**
-     * µ±Ã»ÓĞÊı¾İµÄÊ±ºò£¬ĞİÃßµÄÊ±¼ä
-     * 
-     */
-    private int sleepTimeNoData = 500;
-    
-    /**
-     * ÔÚÃ¿´ÎÊı¾İ´¦ÀíÍíºóĞİÃßµÄÊ±¼ä
-     */
-    private int sleepTimeInterval = 0;
-    
-    /**
-     * Ã¿´Î»ñÈ¡Êı¾İµÄÊıÁ¿
-     */
-    private int fetchDataNumber = 500;
-    
-    /**
-     * ÔÚÅú´¦ÀíµÄÊ±ºò£¬Ã¿´Î´¦ÀíµÄÊı¾İÁ¿
-     */
-    private int executeNumber =1;
-    
-    private int threadNumber = 5;
-    
-    /**
-     * µ÷¶ÈÆ÷ÀàĞÍ
-     */
-    private String processorType="SLEEP" ;
-    /**
-     * ÔÊĞíÖ´ĞĞµÄ¿ªÊ¼Ê±¼ä
-     */
-    private String permitRunStartTime;
-    /**
-     * ÔÊĞíÖ´ĞĞµÄ¿ªÊ¼Ê±¼ä
-     */
-    private String permitRunEndTime;
-    
-    /**
-     * Çå³ı¹ıÆÚ»·¾³ĞÅÏ¢µÄÊ±¼ä¼ä¸ô,ÒÔÌìÎªµ¥Î»
-     */
-    private double expireOwnSignInterval = 1;
-    
-    /**
-     * ´¦ÀíÈÎÎñµÄBeanName
-     */
-    private String dealBeanName;
-    /**
-     * ÈÎÎñbeanµÄ²ÎÊı£¬ÓÉÓÃ»§×Ô¶¨Òå¸ñÊ½µÄ×Ö·û´®
-     */
-    private String taskParameter;
-    
-    //ÈÎÎñÀàĞÍ£º¾²Ì¬static,¶¯Ì¬dynamic
-    private String taskKind = TASKKIND_STATIC;
-    
-    public static String TASKKIND_STATIC="static";
-    public static String TASKKIND_DYNAMIC="dynamic";
- 
-    
-    /**
-     * ÈÎÎñÏîÊı×é
-     */
-    private String[] taskItems;
-    
-    /**
-     * Ã¿¸öÏß³Ì×éÄÜ´¦ÀíµÄ×î´óÈÎÎñÏîÄ¿ÊéÄ¿
-     */
-    private int maxTaskItemsOfOneThreadGroup = 0;
-    /**
-     * °æ±¾ºÅ
-     */
-    private long version;
-    
-    /**
-     * ·şÎñ×´Ì¬: pause,resume
-     */
-    private String sts = STS_RESUME;
-	
-    public static String STS_PAUSE="pause";
-    public static String STS_RESUME="resume";
-    
-    public static String[] splitTaskItem(String str){
-    	List<String> list = new ArrayList<String>();
+	/**
+	 * å‘é…ç½®ä¸­å¿ƒæ›´æ–°å¿ƒè·³ä¿¡æ¯çš„é¢‘ç‡
+	 */
+	private long heartBeatRate = 5 * 1000;//1åˆ†é’Ÿ
+
+	/**
+	 * åˆ¤æ–­ä¸€ä¸ªæœåŠ¡å™¨æ­»äº¡çš„å‘¨æœŸã€‚ä¸ºäº†å®‰å…¨ï¼Œè‡³å°‘æ˜¯å¿ƒè·³å‘¨æœŸçš„ä¸¤å€ä»¥ä¸Š
+	 */
+	private long judgeDeadInterval = 1 * 60 * 1000;//2åˆ†é’Ÿ
+
+	/**
+	 * å½“æ²¡æœ‰æ•°æ®çš„æ—¶å€™ï¼Œä¼‘çœ çš„æ—¶é—´
+	 * 
+	 */
+	private int sleepTimeNoData = 500;
+
+	/**
+	 * åœ¨æ¯æ¬¡æ•°æ®å¤„ç†æ™šåä¼‘çœ çš„æ—¶é—´
+	 */
+	private int sleepTimeInterval = 0;
+
+	/**
+	 * æ¯æ¬¡è·å–æ•°æ®çš„æ•°é‡
+	 */
+	private int fetchDataNumber = 500;
+
+	/**
+	 * åœ¨æ‰¹å¤„ç†çš„æ—¶å€™ï¼Œæ¯æ¬¡å¤„ç†çš„æ•°æ®é‡
+	 */
+	private int executeNumber = 1;
+
+	private int threadNumber = 5;
+
+	/**
+	 * è°ƒåº¦å™¨ç±»å‹
+	 */
+	private String processorType = "SLEEP";
+	/**
+	 * å…è®¸æ‰§è¡Œçš„å¼€å§‹æ—¶é—´
+	 */
+	private String permitRunStartTime;
+	/**
+	 * å…è®¸æ‰§è¡Œçš„å¼€å§‹æ—¶é—´
+	 */
+	private String permitRunEndTime;
+
+	/**
+	 * æ¸…é™¤è¿‡æœŸç¯å¢ƒä¿¡æ¯çš„æ—¶é—´é—´éš”,ä»¥å¤©ä¸ºå•ä½
+	 */
+	private double expireOwnSignInterval = 1;
+
+	/**
+	 * å¤„ç†ä»»åŠ¡çš„BeanName
+	 */
+	private String dealBeanName;
+	/**
+	 * ä»»åŠ¡beançš„å‚æ•°ï¼Œç”±ç”¨æˆ·è‡ªå®šä¹‰æ ¼å¼çš„å­—ç¬¦ä¸²
+	 */
+	private String taskParameter;
+
+	//ä»»åŠ¡ç±»å‹ï¼šé™æ€static,åŠ¨æ€dynamic
+	private String taskKind = TASKKIND_STATIC;
+
+	public static String TASKKIND_STATIC = "static";
+	public static String TASKKIND_DYNAMIC = "dynamic";
+
+	/**
+	 * ä»»åŠ¡é¡¹æ•°ç»„
+	 */
+	private String[] taskItems;
+
+	/**
+	 * æ¯ä¸ªçº¿ç¨‹ç»„èƒ½å¤„ç†çš„æœ€å¤§ä»»åŠ¡é¡¹ç›®ä¹¦ç›®
+	 */
+	private int maxTaskItemsOfOneThreadGroup = 0;
+	/**
+	 * ç‰ˆæœ¬å·
+	 */
+	private long version;
+
+	/**
+	 * æœåŠ¡çŠ¶æ€: pause,resume
+	 */
+	private String sts = STS_RESUME;
+
+	public static String STS_PAUSE = "pause";
+	public static String STS_RESUME = "resume";
+
+	public static String[] splitTaskItem(String str) {
+		List<String> list = new ArrayList<String>();
 		int start = 0;
 		int index = 0;
-    	while(index < str.length()){
-    		if(str.charAt(index)==':'){
-    			index = str.indexOf('}', index) + 1;
-    			list.add(str.substring(start,index).trim());
-    			while(index <str.length()){
-    				if(str.charAt(index) ==' '){
-    					index = index +1;
-    				}else{
-    					break;
-    				}
-    			}
-    			index = index + 1; //Ìø¹ı¶ººÅ
-    			start = index;
-    		}else if(str.charAt(index)==','){
-    			list.add(str.substring(start,index).trim());
-    			while(index <str.length()){
-    				if(str.charAt(index) ==' '){
-    					index = index +1;
-    				}else{
-    					break;
-    				}
-    			}
-    			index = index + 1; //Ìø¹ı¶ººÅ
-    			start = index;
-    		}else{
-    			index = index + 1;
-    		}
-    	}
-    	if(start < str.length()){
-    		list.add(str.substring(start).trim());
-    	}
-    	return (String[]) list.toArray(new String[0]);
-     }
-    
+		while (index < str.length()) {
+			if (str.charAt(index) == ':') {
+				index = str.indexOf('}', index) + 1;
+				list.add(str.substring(start, index).trim());
+				while (index < str.length()) {
+					if (str.charAt(index) == ' ') {
+						index = index + 1;
+					} else {
+						break;
+					}
+				}
+				index = index + 1; //è·³è¿‡é€—å·
+				start = index;
+			} else if (str.charAt(index) == ',') {
+				list.add(str.substring(start, index).trim());
+				while (index < str.length()) {
+					if (str.charAt(index) == ' ') {
+						index = index + 1;
+					} else {
+						break;
+					}
+				}
+				index = index + 1; //è·³è¿‡é€—å·
+				start = index;
+			} else {
+				index = index + 1;
+			}
+		}
+		if (start < str.length()) {
+			list.add(str.substring(start).trim());
+		}
+		return (String[]) list.toArray(new String[0]);
+	}
+
 	public long getVersion() {
 		return version;
 	}
+
 	public void setVersion(long version) {
 		this.version = version;
 	}
-	
+
 	public String getBaseTaskType() {
 		return baseTaskType;
 	}
+
 	public void setBaseTaskType(String baseTaskType) {
 		this.baseTaskType = baseTaskType;
 	}
+
 	public long getHeartBeatRate() {
 		return heartBeatRate;
 	}
+
 	public void setHeartBeatRate(long heartBeatRate) {
 		this.heartBeatRate = heartBeatRate;
 	}
@@ -229,9 +233,10 @@ public class ScheduleTaskType implements java.io.Serializable {
 
 	public void setPermitRunStartTime(String permitRunStartTime) {
 		this.permitRunStartTime = permitRunStartTime;
-		if(this.permitRunStartTime != null && this.permitRunStartTime.trim().length() ==0){
+		if (this.permitRunStartTime != null
+				&& this.permitRunStartTime.trim().length() == 0) {
 			this.permitRunStartTime = null;
-		}	
+		}
 	}
 
 	public String getPermitRunEndTime() {
@@ -241,48 +246,60 @@ public class ScheduleTaskType implements java.io.Serializable {
 	public double getExpireOwnSignInterval() {
 		return expireOwnSignInterval;
 	}
+
 	public void setExpireOwnSignInterval(double expireOwnSignInterval) {
 		this.expireOwnSignInterval = expireOwnSignInterval;
 	}
-	
+
 	public String getDealBeanName() {
 		return dealBeanName;
 	}
+
 	public void setDealBeanName(String dealBeanName) {
 		this.dealBeanName = dealBeanName;
 	}
+
 	public void setPermitRunEndTime(String permitRunEndTime) {
 		this.permitRunEndTime = permitRunEndTime;
-		if(this.permitRunEndTime != null && this.permitRunEndTime.trim().length() ==0){
+		if (this.permitRunEndTime != null
+				&& this.permitRunEndTime.trim().length() == 0) {
 			this.permitRunEndTime = null;
-		}	
+		}
 
 	}
 
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);
 	}
+
 	public void setTaskItems(String[] aTaskItems) {
 		this.taskItems = aTaskItems;
 	}
+
 	public String[] getTaskItems() {
 		return taskItems;
 	}
+
 	public void setSts(String sts) {
 		this.sts = sts;
 	}
+
 	public String getSts() {
 		return sts;
 	}
+
 	public void setTaskKind(String taskKind) {
 		this.taskKind = taskKind;
 	}
+
 	public String getTaskKind() {
 		return taskKind;
 	}
+
 	public void setTaskParameter(String taskParameter) {
 		this.taskParameter = taskParameter;
 	}
+
 	public String getTaskParameter() {
 		return taskParameter;
 	}
@@ -294,6 +311,5 @@ public class ScheduleTaskType implements java.io.Serializable {
 	public void setMaxTaskItemsOfOneThreadGroup(int maxTaskItemsOfOneThreadGroup) {
 		this.maxTaskItemsOfOneThreadGroup = maxTaskItemsOfOneThreadGroup;
 	}
-	
-	
+
 }

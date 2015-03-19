@@ -1,7 +1,8 @@
 package com.taobao.pamirs.schedule.taskmanager;
 
 /**
- * ÈÎÎñ¶ÓÁĞÀàĞÍ
+ * ä»»åŠ¡é˜Ÿåˆ—ç±»å‹
+ * 
  * @author xuannan
  *
  */
@@ -9,34 +10,33 @@ public class ScheduleTaskItem {
 	public enum TaskItemSts {
 		ACTIVTE, FINISH, HALT
 	}
+
 	/**
-	 * ´¦ÀíÈÎÎñÀàĞÍ
+	 * å¤„ç†ä»»åŠ¡ç±»å‹
 	 */
 	private String taskType;
 
 	/**
-	 * Ô­Ê¼ÈÎÎñÀàĞÍ
+	 * åŸå§‹ä»»åŠ¡ç±»å‹
 	 */
 	private String baseTaskType;
 
 	/**
-	 * Íê³É×´Ì¬
+	 * å®ŒæˆçŠ¶æ€
 	 */
 	private TaskItemSts sts = TaskItemSts.ACTIVTE;
-	
+
 	/**
-	 * ÈÎÎñ´¦ÀíĞèÒªµÄ²ÎÊı
+	 * ä»»åŠ¡å¤„ç†éœ€è¦çš„å‚æ•°
 	 */
-	private String dealParameter="";
-	
+	private String dealParameter = "";
+
 	/**
-	 * ÈÎÎñ´¦ÀíÇé¿ö,ÓÃÓÚÈÎÎñ´¦ÀíÆ÷»áĞ´Ò»Ğ©ĞÅÏ¢
+	 * ä»»åŠ¡å¤„ç†æƒ…å†µ,ç”¨äºä»»åŠ¡å¤„ç†å™¨ä¼šå†™ä¸€äº›ä¿¡æ¯
 	 */
-	private String dealDesc="";
-	
-	
-	
-  public String getBaseTaskType() {
+	private String dealDesc = "";
+
+	public String getBaseTaskType() {
 		return baseTaskType;
 	}
 
@@ -44,103 +44,106 @@ public class ScheduleTaskItem {
 		this.baseTaskType = baseTaskType;
 	}
 
-/**
-   * ¶ÓÁĞµÄ»·¾³±êÊ¶
-   */
-  private String ownSign;
-  
-  /**
-   * ÈÎÎñ¶ÓÁĞID
-   */
-  private String taskItem;
-  /**
-   * ³ÖÓĞµ±Ç°ÈÎÎñ¶ÓÁĞµÄÈÎÎñ´¦ÀíÆ÷
-   */
-  private String currentScheduleServer;
-  /**
-   * ÕıÔÚÉêÇë´ËÈÎÎñ¶ÓÁĞµÄÈÎÎñ´¦ÀíÆ÷
-   */
-  private String requestScheduleServer;
-  
-  /**
-   * Êı¾İ°æ±¾ºÅ
-   */
-  private long version;
+	/**
+	 * é˜Ÿåˆ—çš„ç¯å¢ƒæ ‡è¯†
+	 */
+	private String ownSign;
 
-public String getTaskType() {
-	return taskType;
-}
+	/**
+	 * ä»»åŠ¡é˜Ÿåˆ—ID
+	 */
+	private String taskItem;
+	/**
+	 * æŒæœ‰å½“å‰ä»»åŠ¡é˜Ÿåˆ—çš„ä»»åŠ¡å¤„ç†å™¨
+	 */
+	private String currentScheduleServer;
+	/**
+	 * æ­£åœ¨ç”³è¯·æ­¤ä»»åŠ¡é˜Ÿåˆ—çš„ä»»åŠ¡å¤„ç†å™¨
+	 */
+	private String requestScheduleServer;
 
-public void setTaskType(String taskType) {
-	this.taskType = taskType;
-}
+	/**
+	 * æ•°æ®ç‰ˆæœ¬å·
+	 */
+	private long version;
 
-public String getTaskItem() {
-	return taskItem;
-}
+	public String getTaskType() {
+		return taskType;
+	}
 
-public void setTaskItem(String aTaskItem) {
-	this.taskItem = aTaskItem;
-}
+	public void setTaskType(String taskType) {
+		this.taskType = taskType;
+	}
 
-public String getCurrentScheduleServer() {
-	return currentScheduleServer;
-}
+	public String getTaskItem() {
+		return taskItem;
+	}
 
-public void setCurrentScheduleServer(String currentScheduleServer) {
-	this.currentScheduleServer = currentScheduleServer;
-}
+	public void setTaskItem(String aTaskItem) {
+		this.taskItem = aTaskItem;
+	}
 
-public String getRequestScheduleServer() {
-	return requestScheduleServer;
-}
+	public String getCurrentScheduleServer() {
+		return currentScheduleServer;
+	}
 
-public void setRequestScheduleServer(String requestScheduleServer) {
-	this.requestScheduleServer = requestScheduleServer;
-}
+	public void setCurrentScheduleServer(String currentScheduleServer) {
+		this.currentScheduleServer = currentScheduleServer;
+	}
 
-public long getVersion() {
-	return version;
-}
+	public String getRequestScheduleServer() {
+		return requestScheduleServer;
+	}
 
-public void setVersion(long version) {
-	this.version = version;
-}
+	public void setRequestScheduleServer(String requestScheduleServer) {
+		this.requestScheduleServer = requestScheduleServer;
+	}
 
-public String getOwnSign() {
-	return ownSign;
-}
+	public long getVersion() {
+		return version;
+	}
 
-public void setOwnSign(String ownSign) {
-	this.ownSign = ownSign;
-}
-public String toString(){
-	return "TASK_TYPE=" + this.taskType +":TASK_ITEM="  + this.taskItem 
-	       + ":CUR_SERVER=" + this.currentScheduleServer + ":REQ_SERVER=" + this.requestScheduleServer+":DEAL_PARAMETER="+this.dealParameter;
-}
+	public void setVersion(long version) {
+		this.version = version;
+	}
 
-public void setDealDesc(String dealDesc) {
-	this.dealDesc = dealDesc;
-}
+	public String getOwnSign() {
+		return ownSign;
+	}
 
-public String getDealDesc() {
-	return dealDesc;
-}
+	public void setOwnSign(String ownSign) {
+		this.ownSign = ownSign;
+	}
 
-public void setSts(TaskItemSts sts) {
-	this.sts = sts;
-}
+	public String toString() {
+		return "TASK_TYPE=" + this.taskType + ":TASK_ITEM=" + this.taskItem
+				+ ":CUR_SERVER=" + this.currentScheduleServer + ":REQ_SERVER="
+				+ this.requestScheduleServer + ":DEAL_PARAMETER="
+				+ this.dealParameter;
+	}
 
-public TaskItemSts getSts() {
-	return sts;
-}
+	public void setDealDesc(String dealDesc) {
+		this.dealDesc = dealDesc;
+	}
 
-public void setDealParameter(String dealParameter) {
-	this.dealParameter = dealParameter;
-}
+	public String getDealDesc() {
+		return dealDesc;
+	}
 
-public String getDealParameter() {
-	return dealParameter;
-}
-  
+	public void setSts(TaskItemSts sts) {
+		this.sts = sts;
+	}
+
+	public TaskItemSts getSts() {
+		return sts;
+	}
+
+	public void setDealParameter(String dealParameter) {
+		this.dealParameter = dealParameter;
+	}
+
+	public String getDealParameter() {
+		return dealParameter;
+	}
+
 }

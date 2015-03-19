@@ -65,6 +65,14 @@ class TBScheduleProcessorSleep<T> implements IScheduleProcessor, Runnable {
 
 	StatisticsInfo statisticsInfo;
 
+	//wangxiaohu add job日志id
+	private Long taskDomainId = null;
+	//获取到记录数量
+	private Integer taskGetListSize = 0;
+	//执行完毕线程list集合
+	private List<String> overThreadList = new ArrayList<String>();
+	private boolean isSkipGetData = false;
+
 	/**
 	 * 创建一个调度处理器
 	 * 
@@ -172,17 +180,32 @@ class TBScheduleProcessorSleep<T> implements IScheduleProcessor, Runnable {
 				if (logger.isTraceEnabled()) {
 					logger.trace("处理完一批数据后休眠后恢复");
 				}
+			} else {
+				if (isSkipGetData) {
+					return 0;
+				}
 			}
 
 			List<TaskItemDefine> taskItems = this.scheduleManager
 					.getCurrentScheduleTaskItemList();
 			// 根据队列信息查询需要调度的数据，然后增加到任务列表中
 			if (taskItems.size() > 0) {
+				if (taskList.size() == 0) {
+					this.overThreadList.clear();
+					Long taskDomainId = taskDealBean.beforeTask(taskDealBean
+							.getClass().getName(), taskTypeInfo
+							.getTaskParameter(), scheduleManager
+							.getScheduleServer().getOwnSign(),
+							this.scheduleManager.getTaskItemCount(), taskItems,
+							taskTypeInfo.getFetchDataNumber());
+					setTaskDomainId(taskDomainId);
+				}
 				List<T> tmpList = this.taskDealBean.selectTasks(taskTypeInfo
 						.getTaskParameter(), scheduleManager
 						.getScheduleServer().getOwnSign(), this.scheduleManager
 						.getTaskItemCount(), taskItems, taskTypeInfo
 						.getFetchDataNumber());
+				taskGetListSize = tmpList == null ? 0 : tmpList.size();
 				scheduleManager.getScheduleServer().setLastFetchDataTime(
 						new Timestamp(scheduleManager.scheduleCenter
 								.getSystemTime()));
@@ -209,14 +232,25 @@ class TBScheduleProcessorSleep<T> implements IScheduleProcessor, Runnable {
 			while (true) {
 				this.m_lockObject.addThread();
 				Object executeTask;
+				//wangxiaohu  添加quatz运行方式
+				int listSize = this.taskList.size();
+				//wangxiaohu end
 				while (true) {
 					if (this.isStopSchedule == true) {//停止队列调度
 						this.m_lockObject.realseThread();
 						this.m_lockObject.notifyOtherThread();//通知所有的休眠线程
 						synchronized (this.threadList) {
-							this.threadList.remove(Thread.currentThread());
-							if (this.threadList.size() == 0) {
-								this.scheduleManager.unRegisterScheduleServer();
+							try {
+								this.threadList.remove(Thread.currentThread());
+								if (this.threadList.size() == 0) {
+									this.scheduleManager
+											.unRegisterScheduleServer();
+								}
+							} catch (Exception e) {
+								afterTask();
+								throw new Exception("清理job发生异常，剩余 "
+										+ this.taskList.size() + " 条数据没有被执行。",
+										e);
 							}
 						}
 						return;
@@ -285,6 +319,9 @@ class TBScheduleProcessorSleep<T> implements IScheduleProcessor, Runnable {
 									"TBScheduleProcessor.run");
 						}
 						logger.warn("Task :" + executeTask + " 处理失败", ex);
+						if (getTaskDomainId() != null) {
+							taskDealBean.onException(getTaskDomainId(), ex);
+						}
 					}
 				}
 				//当前队列中所有的任务都已经完成了。
@@ -293,6 +330,16 @@ class TBScheduleProcessorSleep<T> implements IScheduleProcessor, Runnable {
 							+ "：当前运行线程数量:" + this.m_lockObject.count());
 				}
 				if (this.m_lockObject.realseThreadButNotLast() == false) {
+					//wangxiaohu  添加quatz运行方式
+					if (listSize != 0) {
+						isSkipGetData = true;
+						if (this.taskTypeInfo.getSleepTimeInterval() < 0) {
+							this.scheduleManager
+									.pause("没数据休眠时间过短，使用quatz运行方式！");
+						}
+						afterTask();
+					}
+					//wangxiaohu end
 					int size = 0;
 					Thread.currentThread().sleep(100);
 					startTime = scheduleManager.scheduleCenter.getSystemTime();
@@ -320,6 +367,7 @@ class TBScheduleProcessorSleep<T> implements IScheduleProcessor, Runnable {
 							//没有数据，退出调度，唤醒所有沉睡线程
 							this.m_lockObject.notifyOtherThread();
 						}
+						afterTask();
 					}
 					this.m_lockObject.realseThread();
 				} else {// 将当前线程放置到等待队列中。直到有线程装载到了新的任务数据
@@ -334,8 +382,23 @@ class TBScheduleProcessorSleep<T> implements IScheduleProcessor, Runnable {
 		}
 	}
 
-	public void addFetchNum(long num, String addr) {
+	private void afterTask() {
+		if (getTaskDomainId() != null
+				&& !overThreadList.contains(Thread.currentThread().getName())) {
+			overThreadList.add(Thread.currentThread().getName());
+			taskDealBean.afterTask(getTaskDomainId(), taskGetListSize);
+		}
+	}
 
+	private void setTaskDomainId(Long taskDomainId) {
+		this.taskDomainId = taskDomainId;
+	}
+
+	private Long getTaskDomainId() {
+		return this.taskDomainId;
+	}
+
+	public void addFetchNum(long num, String addr) {
 		this.statisticsInfo.addFetchDataCount(1);
 		this.statisticsInfo.addFetchDataNum(num);
 	}

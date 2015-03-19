@@ -40,15 +40,28 @@ public class InitialDemoConfigData extends UnitilsJUnit4 {
 		// 创建任务调度DemoTask的基本信息
 		ScheduleTaskType baseTaskType = new ScheduleTaskType();
 		baseTaskType.setBaseTaskType(baseTaskTypeName);
+		baseTaskType.setHeartBeatRate(1000 * 5);
+		baseTaskType.setJudgeDeadInterval(1000 * 30);
+		baseTaskType.setSleepTimeNoData(1000 * 60);
+
+		//执行定期job
+		baseTaskType.setSleepTimeInterval(-1);
+		//循环执行job
+		//		baseTaskType.setSleepTimeInterval(1000 * 1);
+
+		baseTaskType.setThreadNumber(1);
+		baseTaskType.setFetchDataNumber(10);
+		baseTaskType.setProcessorType("SLEEP");
+		baseTaskType.setPermitRunStartTime("0/5 * * * * ?");
+		//		baseTaskType.setTaskParameter("AREA=杭州,YEAR>30");
+		//		baseTaskType
+		//				.setTaskItems(ScheduleTaskType
+		//						.splitTaskItem("0:{TYPE=A,KIND=1},1:{TYPE=A,KIND=2},2:{TYPE=A,KIND=3},3:{TYPE=A,KIND=4},"
+		//								+ "4:{TYPE=A,KIND=5},5:{TYPE=A,KIND=6},6:{TYPE=A,KIND=7},7:{TYPE=A,KIND=8},"
+		//								+ "8:{TYPE=A,KIND=9},9:{TYPE=A,KIND=10}"));
 		baseTaskType.setDealBeanName("demoTaskBean");
-		baseTaskType.setHeartBeatRate(2000);
-		baseTaskType.setJudgeDeadInterval(10000);
-		baseTaskType.setTaskParameter("AREA=杭州,YEAR>30");
-		baseTaskType
-				.setTaskItems(ScheduleTaskType
-						.splitTaskItem("0:{TYPE=A,KIND=1},1:{TYPE=A,KIND=2},2:{TYPE=A,KIND=3},3:{TYPE=A,KIND=4},"
-								+ "4:{TYPE=A,KIND=5},5:{TYPE=A,KIND=6},6:{TYPE=A,KIND=7},7:{TYPE=A,KIND=8},"
-								+ "8:{TYPE=A,KIND=9},9:{TYPE=A,KIND=10}"));
+		baseTaskType.setTaskItems(ScheduleTaskType
+				.splitTaskItem("0,1,2,3,4,5,6,7,8,9"));
 		this.scheduleManagerFactory.getScheduleDataManager()
 				.createBaseTaskType(baseTaskType);
 		log.info("创建调度任务成功:" + baseTaskType.toString());

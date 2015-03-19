@@ -8,7 +8,6 @@ import java.util.Random;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.taobao.pamirs.schedule.IScheduleTaskDealSingle;
 import com.taobao.pamirs.schedule.TaskItemDefine;
 
 /**
@@ -17,7 +16,7 @@ import com.taobao.pamirs.schedule.TaskItemDefine;
  * @author xuannan
  * 
  */
-public class DemoTaskBean implements IScheduleTaskDealSingle<Long> {
+public class DemoTaskBean extends IScheduleTaskDealSingleBase<Long> {
 	protected static transient Logger log = LoggerFactory
 			.getLogger(DemoTaskBean.class);
 
@@ -61,7 +60,7 @@ public class DemoTaskBean implements IScheduleTaskDealSingle<Long> {
 
 	public boolean execute(Long task, String ownSign) throws Exception {
 		Thread.sleep(50);
-		log.info("处理任务[" + ownSign + "]:" + task);
+		log.error("处理任务[" + ownSign + "]:" + task);
 		return true;
 	}
 }

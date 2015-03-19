@@ -8,7 +8,6 @@ import java.util.Random;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.taobao.pamirs.schedule.IScheduleTaskDealMulti;
 import com.taobao.pamirs.schedule.TaskItemDefine;
 
 /**
@@ -17,7 +16,7 @@ import com.taobao.pamirs.schedule.TaskItemDefine;
  * @author xuannan
  * 
  */
-public class DemoTaskBeanMulti implements IScheduleTaskDealMulti<Long> {
+public class DemoTaskBeanMulti extends IScheduleTaskDealMultiBase<Long> {
 	protected static transient Logger log = LoggerFactory
 			.getLogger(DemoTaskBeanMulti.class);
 

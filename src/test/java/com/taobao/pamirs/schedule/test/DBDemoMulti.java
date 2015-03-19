@@ -13,7 +13,6 @@ import javax.sql.DataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.taobao.pamirs.schedule.IScheduleTaskDealMulti;
 import com.taobao.pamirs.schedule.TaskItemDefine;
 
 /**
@@ -22,7 +21,7 @@ import com.taobao.pamirs.schedule.TaskItemDefine;
  * @author xuannan
  * 
  */
-public class DBDemoMulti implements IScheduleTaskDealMulti<Long> {
+public class DBDemoMulti extends IScheduleTaskDealMultiBase<Long> {
 
 	private static transient Logger log = LoggerFactory
 			.getLogger(DBDemoMulti.class);

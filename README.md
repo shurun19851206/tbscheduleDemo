@@ -12,7 +12,11 @@
 
 >通过对源码简单改造，实现了上述功能。此处只有SLEEP模式的改造代码，NOTSLEEP模式未进行改造。代码进行过简单测试，由于自身业务需求，对多线程组、多线程模式下测试过少。
 
+
 改造介绍：[http://blog.csdn.net/wsmalltiger/article/details/44456891][2]
+
+>执行定期任务，需要将**每次处理完数据后休眠时间(秒)**配置为：负数（例如：-1）
+
 
 [1]: http://code.taobao.org/p/tbschedule/wiki/index/
 [2]: http://blog.csdn.net/wsmalltiger/article/details/44456891

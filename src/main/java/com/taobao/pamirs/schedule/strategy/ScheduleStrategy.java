@@ -3,9 +3,12 @@ package com.taobao.pamirs.schedule.strategy;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 public class ScheduleStrategy {
-	public enum Kind{Schedule,Java,Bean}
+	public enum Kind {
+		Schedule, Java, Bean
+	}
+
 	/**
-	 * ÈÎÎñÀàĞÍ
+	 * ä»»åŠ¡ç±»å‹
 	 */
 	private String strategyName;
 
@@ -13,32 +16,31 @@ public class ScheduleStrategy {
 
 	private int numOfSingleServer;
 	/**
-	 * Ö¸¶¨ĞèÒªÖ´ĞĞµ÷¶ÈµÄ»úÆ÷ÊıÁ¿
+	 * æŒ‡å®šéœ€è¦æ‰§è¡Œè°ƒåº¦çš„æœºå™¨æ•°é‡
 	 */
 	private int assignNum;
-	
-	private Kind kind; 
-	
-	/**
-	 * Schedule Name,Class Name¡¢Bean Name
-	 */
-	private String taskName; 
-	
-	private String taskParameter;
-	
-    /**
-     * ·şÎñ×´Ì¬: pause,resume
-     */
-    private String sts = STS_RESUME;
-	
-    public static String STS_PAUSE="pause";
-    public static String STS_RESUME="resume";
 
-	
+	private Kind kind;
+
+	/**
+	 * Schedule Name,Class Nameã€Bean Name
+	 */
+	private String taskName;
+
+	private String taskParameter;
+
+	/**
+	 * æœåŠ¡çŠ¶æ€: pause,resume
+	 */
+	private String sts = STS_RESUME;
+
+	public static String STS_PAUSE = "pause";
+	public static String STS_RESUME = "resume";
+
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);
 	}
-	
+
 	public String getStrategyName() {
 		return strategyName;
 	}
@@ -70,15 +72,19 @@ public class ScheduleStrategy {
 	public int getNumOfSingleServer() {
 		return numOfSingleServer;
 	}
+
 	public Kind getKind() {
 		return kind;
 	}
+
 	public void setKind(Kind kind) {
 		this.kind = kind;
 	}
+
 	public String getTaskName() {
 		return taskName;
 	}
+
 	public void setTaskName(String taskName) {
 		this.taskName = taskName;
 	}
@@ -97,5 +103,5 @@ public class ScheduleStrategy {
 
 	public void setSts(String sts) {
 		this.sts = sts;
-	}	
+	}
 }

@@ -10,46 +10,53 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ScheduleWatcher implements Watcher {
-	private static transient Logger log = LoggerFactory.getLogger(ScheduleWatcher.class);
-	private Map<String,Watcher> route = new ConcurrentHashMap<String,Watcher>();
+	private static transient Logger log = LoggerFactory
+			.getLogger(ScheduleWatcher.class);
+	private Map<String, Watcher> route = new ConcurrentHashMap<String, Watcher>();
 	private ZKManager manager;
-	public ScheduleWatcher(ZKManager aManager){
+
+	public ScheduleWatcher(ZKManager aManager) {
 		this.manager = aManager;
 	}
-	public void registerChildrenChanged(String path,Watcher watcher) throws Exception{
+
+	public void registerChildrenChanged(String path, Watcher watcher)
+			throws Exception {
 		manager.getZooKeeper().getChildren(path, true);
-		route.put(path,watcher);
+		route.put(path, watcher);
 	}
+
 	public void process(WatchedEvent event) {
-		if(log.isInfoEnabled()){
-			log.info("ÒÑ¾­´¥·¢ÁË" + event.getType() + ":"+ event.getState() + "ÊÂ¼ş£¡" + event.getPath());
+		if (log.isInfoEnabled()) {
+			log.info("å·²ç»è§¦å‘äº†" + event.getType() + ":" + event.getState() + "äº‹ä»¶ï¼"
+					+ event.getPath());
 		}
-		if(event.getType() == Event.EventType.NodeChildrenChanged){
+		if (event.getType() == Event.EventType.NodeChildrenChanged) {
 			String path = event.getPath();
 			Watcher watcher = route.get(path);
-			  if( watcher != null ){
-				  try{
-					  watcher.process(event);
-				  }finally{
-					  try{
-						  if(manager.getZooKeeper().exists(path,null) != null){
-							  manager.getZooKeeper().getChildren(path, true);
-						  }
-					  }catch(Exception e){
-						  log.error(path +":" + e.getMessage(),e);
-					  }
-				  }
-			  }else{
-				  log.info("ÒÑ¾­´¥·¢ÁË" + event.getType() + ":"+ event.getState() + "ÊÂ¼ş£¡" + event.getPath());
-			  }
-		}else if (event.getState() == KeeperState.SyncConnected) {
-			log.info("ÊÕµ½ZKÁ¬½Ó³É¹¦ÊÂ¼ş£¡");
+			if (watcher != null) {
+				try {
+					watcher.process(event);
+				} finally {
+					try {
+						if (manager.getZooKeeper().exists(path, null) != null) {
+							manager.getZooKeeper().getChildren(path, true);
+						}
+					} catch (Exception e) {
+						log.error(path + ":" + e.getMessage(), e);
+					}
+				}
+			} else {
+				log.info("å·²ç»è§¦å‘äº†" + event.getType() + ":" + event.getState()
+						+ "äº‹ä»¶ï¼" + event.getPath());
+			}
+		} else if (event.getState() == KeeperState.SyncConnected) {
+			log.info("æ”¶åˆ°ZKè¿æ¥æˆåŠŸäº‹ä»¶ï¼");
 		} else if (event.getState() == KeeperState.Expired) {
-			log.error("»á»°³¬Ê±£¬µÈ´ıÖØĞÂ½¨Á¢ZKÁ¬½Ó...");
+			log.error("ä¼šè¯è¶…æ—¶ï¼Œç­‰å¾…é‡æ–°å»ºç«‹ZKè¿æ¥...");
 			try {
 				manager.reConnection();
 			} catch (Exception e) {
-				log.error(e.getMessage(),e);
+				log.error(e.getMessage(), e);
 			}
 		}
 	}

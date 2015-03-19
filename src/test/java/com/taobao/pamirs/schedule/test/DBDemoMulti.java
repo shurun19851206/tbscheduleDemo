@@ -17,14 +17,15 @@ import com.taobao.pamirs.schedule.IScheduleTaskDealMulti;
 import com.taobao.pamirs.schedule.TaskItemDefine;
 
 /**
- * Åú´¦ÀíÊµÏÖ
+ * æ‰¹å¤„ç†å®ç°
  * 
  * @author xuannan
  * 
  */
-public class DBDemoMulti implements	IScheduleTaskDealMulti<Long> {
+public class DBDemoMulti implements IScheduleTaskDealMulti<Long> {
 
-	private static transient Logger log = LoggerFactory.getLogger(DBDemoMulti.class);
+	private static transient Logger log = LoggerFactory
+			.getLogger(DBDemoMulti.class);
 
 	protected DataSource dataSource;
 
@@ -40,8 +41,9 @@ public class DBDemoMulti implements	IScheduleTaskDealMulti<Long> {
 		};
 	}
 
-	public List<Long> selectTasks(String taskParameter,String ownSign, int taskItemNum,
-			List<TaskItemDefine> queryCondition, int fetchNum) throws Exception {
+	public List<Long> selectTasks(String taskParameter, String ownSign,
+			int taskItemNum, List<TaskItemDefine> queryCondition, int fetchNum)
+			throws Exception {
 		List<Long> result = new ArrayList<Long>();
 		if (queryCondition.size() == 0) {
 			return result;
@@ -71,7 +73,7 @@ public class DBDemoMulti implements	IScheduleTaskDealMulti<Long> {
 						+ condition.toString() + ") and sts ='N' LIMIT "
 						+ fetchNum;
 			} else {
-				throw new Exception("²»Ö§³ÖµÄÊı¾İ¿âÀàĞÍ£º" + dbType);
+				throw new Exception("ä¸æ”¯æŒçš„æ•°æ®åº“ç±»å‹ï¼š" + dbType);
 			}
 			PreparedStatement statement = conn.prepareStatement(sql);
 			ResultSet set = statement.executeQuery();
@@ -87,8 +89,6 @@ public class DBDemoMulti implements	IScheduleTaskDealMulti<Long> {
 		}
 	}
 
-
-
 	public boolean execute(Long[] tasks, String ownSign) throws Exception {
 		Connection conn = null;
 		long id = 0;
@@ -96,7 +96,7 @@ public class DBDemoMulti implements	IScheduleTaskDealMulti<Long> {
 			conn = dataSource.getConnection();
 			for (int index = 0; index < tasks.length; index++) {
 				id = ((Long) tasks[index]).longValue();
-				log.debug("´¦ÀíÈÎÎñ£º" + id + " ³É¹¦£¡");
+				log.debug("å¤„ç†ä»»åŠ¡ï¼š" + id + " æˆåŠŸï¼");
 				String sql = "update SCHEDULE_TEST SET STS ='Y' ,DEAL_COUNT = DEAL_COUNT + 1 WHERE ID = ? and STS ='N' ";
 				PreparedStatement statement = conn.prepareStatement(sql);
 				statement.setLong(1, id);
@@ -105,7 +105,7 @@ public class DBDemoMulti implements	IScheduleTaskDealMulti<Long> {
 			}
 			conn.commit();
 		} catch (Exception e) {
-			log.error("Ö´ĞĞÈÎÎñ£º" + id + "Ê§°Ü£º" + e.getMessage(), e);
+			log.error("æ‰§è¡Œä»»åŠ¡ï¼š" + id + "å¤±è´¥ï¼š" + e.getMessage(), e);
 			if (conn != null) {
 				conn.rollback();
 			}
@@ -115,7 +115,7 @@ public class DBDemoMulti implements	IScheduleTaskDealMulti<Long> {
 				conn.close();
 			}
 		}
-		// System.out.println("´¦ÀíÈÎÎñ£º" + tasks.length);
+		// System.out.println("å¤„ç†ä»»åŠ¡ï¼š" + tasks.length);
 		return true;
 	}
 
@@ -126,6 +126,7 @@ public class DBDemoMulti implements	IScheduleTaskDealMulti<Long> {
 	public void setDataSource(DataSource dataSource) {
 		this.dataSource = dataSource;
 	}
+
 	public String getDataBaseType(Connection conn) throws SQLException {
 		return conn.getMetaData().getDatabaseProductName();
 	}

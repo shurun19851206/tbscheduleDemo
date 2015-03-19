@@ -1,10 +1,9 @@
-<?xml version="1.0" encoding="GB2312"?>
-
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.taobao.pamirs.schedule</groupId>
-	<artifactId>tbschedule</artifactId>
+	<artifactId>DISchedule</artifactId>
 	<packaging>jar</packaging>
 	<version>3.2.14</version>
 	<dependencies>
@@ -33,6 +32,18 @@
 			<groupId>org.apache.zookeeper</groupId>
 			<artifactId>zookeeper</artifactId>
 			<version>3.3.3</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>log4j</artifactId>
+					<groupId>log4j</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<artifactId>log4j</artifactId>
+			<groupId>log4j</groupId>
+			<version>1.2.17</version>
 		</dependency>
 
 		<dependency>
@@ -83,7 +94,6 @@
 		</snapshotRepository>
 	</distributionManagement>
 
-
 	<build>
 		<plugins>
 			<plugin>
@@ -112,4 +122,3 @@
 		</plugins>
 	</build>
 </project>
-
